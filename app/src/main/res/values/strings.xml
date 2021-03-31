@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Reto1</string>
+    <string name="main_title">Agregar un sitio</string>
+    <string name="main_subtitle"> En esta seccion puede inscribir un sitio de la ciudad. Nombre el lugar y luego con el boton de mapa, seleccione un punto en el mapa.</string>
+    <string name="main_Data">Datos</string>
+    <string name="main_Img">Imagenes</string>
+    <string name="main_button">Registrar</string>
+    <string name="main_Dir">Direccion del sitio seleccionado</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
 </resources>
