@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 
@@ -32,7 +33,7 @@ public class HomeActivity extends AppCompatActivity {
 
         ActivityCompat.requestPermissions(this, new String[]{
                 Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION}, 1
+                Manifest.permission.ACCESS_FINE_LOCATION}, 11
         );
 
         navigator = findViewById(R.id.navigator);
@@ -60,6 +61,15 @@ public class HomeActivity extends AppCompatActivity {
         );
 
        }
+
+
+    public void onRequestPermissionResult(int requesCode, @NonNull String[] permissions, @NonNull int[] grantResult){
+        super.onRequestPermissionsResult(requesCode, permissions, grantResult);
+        if(requesCode == 11){
+            Intent i = new Intent(this, MapsFragment.class);
+            startActivity(i);
+        }
+    }
 
     public void showFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
