@@ -40,7 +40,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 2, this);
+        manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 2, this);
         setInitialPos();
 
         mMap.setOnMapClickListener(this);
