@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class PlaceView extends RecyclerView.ViewHolder {
+public class PlaceView extends RecyclerView.ViewHolder implements View.OnClickListener{
     private ConstraintLayout root;
     private ImageView image;
     private TextView name;
@@ -25,6 +25,7 @@ public class PlaceView extends RecyclerView.ViewHolder {
         name = root.findViewById(R.id.placeName);
         rate = root.findViewById(R.id.placeAverage);
         seen = root.findViewById(R.id.imSearchBtn);
+        seen.setOnClickListener(this);
     }
 
     public ConstraintLayout getRoot() {
@@ -49,5 +50,15 @@ public class PlaceView extends RecyclerView.ViewHolder {
 
     public void setImage(ImageView image) {
         this.image = image;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.imSearchBtn:
+                //AQUI va el método donde mostrará el mapa con la ubicación del sitio.
+
+                break;
+        }
     }
 }

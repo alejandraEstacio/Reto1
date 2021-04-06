@@ -26,6 +26,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlaceView> {
 
     public void addPlace(Place place){
         places.add(place);
+        this.notifyDataSetChanged();
     }
 
     @NonNull
