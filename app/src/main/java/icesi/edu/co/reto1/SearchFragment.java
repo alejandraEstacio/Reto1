@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 public class SearchFragment extends Fragment {
 
+    private EditText placeToSearch;
     private RecyclerView placesViewList;
     private LinearLayoutManager layoutManager;
     private PlacesAdapter adapter;
@@ -34,6 +36,8 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_search, container, false);
+
+        placeToSearch = root.findViewById(R.id.placeToSearch);
 
         placesViewList =root.findViewById(R.id.placesViewList);
         placesViewList.setHasFixedSize(true);
