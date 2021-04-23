@@ -1,19 +1,19 @@
 package icesi.edu.co.reto1;
 
-import androidx.annotation.NonNull;
+import
+        androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +27,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback, LocationListener, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener {
 
@@ -35,6 +38,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     private LocationManager manager;
     private Marker me;
     private ArrayList<Marker> points;
+    private  List<Address> addresses;
+    private Geocoder geocoder;
 
     @SuppressLint("MissingPermission")
     @Override
@@ -67,6 +72,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         points = new ArrayList<>();
 
         manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        geocoder = new Geocoder(getContext());
+        try {
+            addresses= geocoder.getFromLocationName("abc.xyz", 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static MapsFragment newInstance() {
@@ -78,10 +90,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 
     @SuppressLint("MissingPermission")
     public void setInitialPos() {
-      Location location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+      Location location = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
       if(location != null) {
           updateMyLocation(location);
-
       }
     }
 
@@ -93,12 +104,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 
     public void updateMyLocation(Location location){
         LatLng myPos = new LatLng(location.getLatitude(), location.getLongitude());
-        if(me == null){
-          me = mMap.addMarker(new MarkerOptions().position(myPos).title("yo"));
-        }else {
-            me.setPosition(myPos);
-        }
-      //  mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPos,17));
+
+            if (me == null) {
+                    me = mMap.addMarker(new MarkerOptions().position(myPos).title("yo"));
+            } else {
+                me.setPosition(myPos);
+                //   String cityName= getCityName(myPos);
+            }
+         //  mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPos,17));
     }
 
     @Override
@@ -117,15 +130,42 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-      Marker p=  mMap.addMarker(new MarkerOptions().position(latLng).title("Marcador"));
-    points.add(p);
+          /*  if(addresses.size() >0) {
+                Address address = addresses.get(0);
+                MarkerOptions markerOptions = new MarkerOptions().
+                        position(latLng)
+                        .title(address.getLocality());*/
+               Marker p =  mMap.addMarker(new MarkerOptions().position(latLng).title("marcador"));
+               // Marker p=  mMap.addMarker(markerOptions);
+                points.add(p);
+
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
         Toast.makeText(getContext(), marker.getPosition().latitude+", "+marker.getPosition().longitude, Toast.LENGTH_LONG).show();
-       marker.showInfoWindow();
+        
+          marker.showInfoWindow();
         return true;
     }
+
+   /* private String getCityName(LatLng myPos)  {
+        String myCity="";
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        try {
+
+        List<Address> addresses = null;
+        addresses = geocoder.getFromLocation(myPos.latitude, myPos.longitude, 1);
+        String address = addresses.get(0).getAddressLine(0);
+        myCity = addresses.get(0).getLocality();
+        Log.d("mylog", "Complete Addresses: "+addresses.toString());
+        Log.d("mylog", "Addresses: "+addresses);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return myCity;
+    }*/
 }
+
 

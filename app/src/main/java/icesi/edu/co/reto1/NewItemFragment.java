@@ -25,6 +25,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.File;
 
 import static android.app.Activity.RESULT_OK;
@@ -39,12 +41,9 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
 
     public static final int PERMISSIONS_CALLBACK =11;
     private static final int CAMERA_CALLBACK=12;
-
     private static final int GALERY_CALLBACK = 13 ;
 
-    public NewItemFragment() {
-
-    }
+    public NewItemFragment() { }
 
     // TODO: Rename and change types and number of parameters
     public static NewItemFragment newInstance() {
@@ -70,7 +69,9 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
        ActivityCompat.requestPermissions(getActivity(), new String[]{
                         Manifest.permission.CAMERA,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION
                 },
                 PERMISSIONS_CALLBACK);
 
@@ -157,4 +158,6 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
         i.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         startActivityForResult(i, CAMERA_CALLBACK);
     }
+
+
 }
