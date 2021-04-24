@@ -21,7 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,13 +39,11 @@ import java.util.List;
 import java.util.Locale;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback, LocationListener, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener {
-    private TextView textView6;
     private GoogleMap mMap;
     private LocationManager manager;
     private Marker me;
     private ArrayList<Marker> points;
-
-
+    private Geocoder geocoder;
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -64,7 +62,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_new_item, container, false);
-        textView6 = root.findViewById(R.id.textView6);
 
           if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
               != PackageManager.PERMISSION_GRANTED){
@@ -85,7 +82,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
             mapFragment.getMapAsync(this);
         }
         points = new ArrayList<>();
-
+        geocoder = new Geocoder(getActivity());
         manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
     }
@@ -113,12 +110,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 
     public void updateMyLocation(Location location){
         LatLng myPos = new LatLng(location.getLatitude(), location.getLongitude());
-       // String cityName = getCityName(myPos);
+      String cityName = getCityName(myPos);
         if (me == null) {
-            me = mMap.addMarker(new MarkerOptions().position(myPos).title("yo").icon(BitmapDescriptorFactory.fromResource(R.drawable.person)));
+            me = mMap.addMarker(new MarkerOptions().position(myPos).title(cityName).icon(BitmapDescriptorFactory.fromResource(R.drawable.person)));
         } else {
             me.setPosition(myPos);
         }
+
 
           mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPos,17));
     }
@@ -148,34 +146,27 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     @Override
     public boolean onMarkerClick(Marker marker) {
         Toast.makeText(getContext(), marker.getPosition().latitude+", "+marker.getPosition().longitude, Toast.LENGTH_LONG).show();
-       try{
-            Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
-            List<Address> addresses = null;
-            addresses = geocoder.getFromLocation(marker.getPosition().latitude, marker.getPosition().longitude,1);
-            String address = addresses.get(0).getAddressLine(0);
-            textView6.setText(address);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         marker.showInfoWindow();
         return true;
     }
 
-  /*  private String getCityName(LatLng myPos){
+    private String getCityName(LatLng myPos){
         String myCity="";
         try {
-        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
-        List<Address> addresses= geocoder.getFromLocation(myPos.latitude, myPos.longitude,1);
-            String address = addresses.get(0).getAddressLine(0);
-            myCity=addresses.get(0).getLocality();
-            textView6.setText(address);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            geocoder = new Geocoder(getActivity(), Locale.getDefault());
+            List<Address> addresses = geocoder.getFromLocation(myPos.latitude, myPos.longitude, 1);
+           if (addresses.size() > 0) {
+                myCity = addresses.get(0).getAddressLine(0);
+                
+           }
+            } catch(IOException e){
+                e.printStackTrace();
+            }
 
         return myCity;
 
-    }*/
+    }
 
 }
 
