@@ -17,7 +17,6 @@ public class PlaceView extends RecyclerView.ViewHolder implements View.OnClickLi
     private TextView rate;
     private ImageButton seen;
 
-
     public PlaceView( ConstraintLayout root) {
         super(root);
         this.root = root;
