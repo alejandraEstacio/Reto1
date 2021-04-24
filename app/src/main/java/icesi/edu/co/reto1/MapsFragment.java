@@ -38,12 +38,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MapsFragment extends Fragment implements OnMapReadyCallback, LocationListener, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener {
+public class MapsFragment extends Fragment implements OnMapReadyCallback, LocationListener, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener{
     private GoogleMap mMap;
     private LocationManager manager;
     private Marker me;
     private ArrayList<Marker> points;
     private Geocoder geocoder;
+    private OnOkListener listener;
+
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -110,13 +112,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 
     public void updateMyLocation(Location location){
         LatLng myPos = new LatLng(location.getLatitude(), location.getLongitude());
-      String cityName = getCityName(myPos);
+        String cityName = getCityName(myPos);
         if (me == null) {
-            me = mMap.addMarker(new MarkerOptions().position(myPos).title(cityName).icon(BitmapDescriptorFactory.fromResource(R.drawable.person)));
+            me = mMap.addMarker(new MarkerOptions().position(myPos).title("yo"+cityName).icon(BitmapDescriptorFactory.fromResource(R.drawable.person)));
         } else {
             me.setPosition(myPos);
         }
-
 
           mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPos,17));
     }
@@ -137,16 +138,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-
-        Marker p =  mMap.addMarker(new MarkerOptions().position(latLng).title("marcador"));
+        String cityName = getCityName(latLng);
+        Marker p =  mMap.addMarker(new MarkerOptions().position(latLng).title("marcador"+cityName));
         points.add(p);
+        listener.onOkAddress("");
 
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
         Toast.makeText(getContext(), marker.getPosition().latitude+", "+marker.getPosition().longitude, Toast.LENGTH_LONG).show();
-
         marker.showInfoWindow();
         return true;
     }
@@ -158,7 +159,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
             List<Address> addresses = geocoder.getFromLocation(myPos.latitude, myPos.longitude, 1);
            if (addresses.size() > 0) {
                 myCity = addresses.get(0).getAddressLine(0);
-                
            }
             } catch(IOException e){
                 e.printStackTrace();
@@ -166,6 +166,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 
         return myCity;
 
+    }
+
+    public void setListener(OnOkListener listener) {
+        this.listener= listener;
+    }
+
+    public interface OnOkListener{
+        void onOkAddress(String s);
     }
 
 }

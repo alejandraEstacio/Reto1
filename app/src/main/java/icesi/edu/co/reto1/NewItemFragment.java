@@ -32,7 +32,7 @@ import java.io.File;
 
 import static android.app.Activity.RESULT_OK;
 
-public class NewItemFragment extends Fragment implements View.OnClickListener, ModalDialog.OnOkListener{
+public class NewItemFragment extends Fragment implements View.OnClickListener, ModalDialog.OnOkListener, MapsFragment.OnOkListener{
     private EditText nameText;
     private TextView addressText;
     private Button btnRegister;
@@ -40,6 +40,7 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
     private ImageView mainImage;
     private ModalDialog dialog;
     private File file;
+    private MapsFragment maps;
 
     public static final int PERMISSIONS_CALLBACK =11;
     private static final int CAMERA_CALLBACK=12;
@@ -66,8 +67,10 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
         mainImage = root.findViewById(R.id.mainImage);
         addressText = root.findViewById(R.id.addressText);
 
+
         btnAddImage.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
+
         //Camara
        ActivityCompat.requestPermissions(getActivity(), new String[]{
                         Manifest.permission.CAMERA,
@@ -92,7 +95,6 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
                 dialog = ModalDialog.newInstance();
                 dialog.setListener(this);
                 dialog.show(getFragmentManager(),"dialog");
-
                 break;
         }
     }
@@ -104,7 +106,6 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
             Bitmap thumbnail = Bitmap.createScaledBitmap(
                     image, image.getWidth()/4, image.getHeight()/4, true
             );
-
             Matrix matrix = new Matrix();
             matrix.postRotate(90);
             Bitmap rotateBitmap = Bitmap.createBitmap(thumbnail, 0,0, thumbnail.getWidth(), thumbnail.getHeight(), matrix, true);
@@ -122,7 +123,6 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
     }
 
 
-
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
@@ -136,7 +136,6 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
             if (allGrant){
                 Toast.makeText( getContext(), "Todos los permisos concedidos", Toast.LENGTH_LONG).show();
                 Toast.makeText(getContext(), "Alerta!, no todos los permisos concedidos", Toast.LENGTH_LONG).show();
-
             }
         }
 
@@ -163,4 +162,8 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
     }
 
 
+    @Override
+    public void onOkAddress(String s) {
+        addressText.setText("holaaaaaaaa");
+    }
 }
