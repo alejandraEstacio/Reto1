@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -33,6 +34,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class NewItemFragment extends Fragment implements View.OnClickListener, ModalDialog.OnOkListener{
     private EditText nameText;
+    private TextView addressText;
     private Button btnRegister;
     private Button btnAddImage;
     private ImageView mainImage;
@@ -62,6 +64,7 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
         btnRegister = root.findViewById(R.id.btnRegister);
         btnAddImage = root.findViewById(R.id.btnAddImage);
         mainImage = root.findViewById(R.id.mainImage);
+        addressText = root.findViewById(R.id.addressText);
 
         btnAddImage.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
