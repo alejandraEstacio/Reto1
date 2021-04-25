@@ -50,6 +50,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     private Position currentPosition;
 
 
+    private HomeActivity home;
+
+
 
     private RatingDialog dialog;
 
@@ -169,14 +172,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                // bundle.putString("direccion", dir);
                 newI.setArguments(bundle);
         marker.showInfoWindow();
-        <<<<<<< HEAD
+
 //Probablemente este dialog se borre, era para poder actualizar la puntuacion de un lugar
 //dialog = RatingDialog.newInstance();
 //dialog.setListener(this);
-=======
 
-
-        >>>>>>> afc7bcdb3f3f2cb914fbcbadec935d8218f44601
         return true;
     }
 
@@ -203,6 +203,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     }
 
 
-
+    public void setHome(HomeActivity homeActivity) {
+        home = homeActivity;
+    }
 }
 

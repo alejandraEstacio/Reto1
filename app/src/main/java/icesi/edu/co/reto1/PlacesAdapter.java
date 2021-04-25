@@ -54,7 +54,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlaceView> {
         return places.size();
     }
 
-    @Override
+
     public void onSumit(double rate, String placeName) {
         boolean still = false;
         for(int i=0; i<places.size()&&!still;i++){
