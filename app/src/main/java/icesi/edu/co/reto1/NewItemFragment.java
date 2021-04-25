@@ -19,12 +19,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 
 import java.io.File;
 
@@ -103,6 +106,19 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
                break;
 
         }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getParentFragmentManager().setFragmentResultListener("key", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+              String dir = bundle.getString("direccion");
+              addressText.setText(dir);
+
+            }
+        });
     }
 
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -186,4 +202,8 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
     public void setAddressText(TextView addressText) {
         this.addressText = addressText;
     }
+
+
+
+
 }

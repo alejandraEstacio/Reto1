@@ -100,17 +100,5 @@ public class HomeActivity extends AppCompatActivity implements RatingDialog.onSu
         mapsFragment.getDialog().dismiss();
     }
 
-    public void addPlace(LatLng place){
-        showFragment(newItemFragment);
-        newItemFragment.setHome(this);
 
-        runOnUiThread(
-                ()->{
-                    newItemFragment.getAddressText().setText(place.toString());
-                }
-
-        );
-
-
-    }
 }

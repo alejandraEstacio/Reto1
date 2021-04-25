@@ -67,7 +67,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         mMap.setOnMapClickListener(this);
         mMap.setOnMapLongClickListener(this);
         mMap.setOnMarkerClickListener(this);
-
         locationWorker = new LocationWorker(this);
         locationWorker.start();
     }
@@ -86,7 +85,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         View root = inflater.inflate(R.layout.fragment_maps, container, false);
         addButton = root.findViewById(R.id.addButton);
 
-
         return root;
     }
 
@@ -98,7 +96,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
-
         points = new ArrayList<>();
         geocoder = new Geocoder(getActivity());
         manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -156,7 +153,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
        String cityName = getCityName(latLng);
         Marker p =  mMap.addMarker(new MarkerOptions().position(latLng).title("marcador"));
         points.add(p);
-        home.addPlace(latLng);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("direccion", getCityName(p.getPosition()));
+                getParentFragmentManager().setFragmentResult("key", bundle);
+
+            }
+        });
 
     }
 
@@ -170,7 +175,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         dialog = RatingDialog.newInstance();
         dialog.setListener(home);
         dialog.show(getActivity().getSupportFragmentManager(), "Rate Dialog");
-        
+      //  home.addPlace(marker.getPosition());
+
         return true;
     }
 
@@ -199,6 +205,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 
     public void setHome(HomeActivity homeActivity) {
         home = homeActivity;
+    }
+
+    public ArrayList<Marker> getPoints() {
+        return points;
+    }
+
+    public void setPoints(ArrayList<Marker> points) {
+        this.points = points;
     }
 }
 
