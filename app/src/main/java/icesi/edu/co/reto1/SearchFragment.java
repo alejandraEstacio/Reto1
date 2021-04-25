@@ -28,7 +28,6 @@ public class SearchFragment extends Fragment {
     public static SearchFragment newInstance() {
         SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
-
         fragment.setArguments(args);
         return fragment;
     }
