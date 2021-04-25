@@ -45,6 +45,7 @@ public class SearchFragment extends Fragment {
         placesViewList.setHasFixedSize(true);
 
         adapter = new PlacesAdapter();
+        adapter.setPlaces(home.getPlaces());
         placesViewList.setAdapter(adapter);
 
         layoutManager = new LinearLayoutManager(this.getContext());
@@ -57,4 +58,6 @@ public class SearchFragment extends Fragment {
 
         this.home = homeActivity;
     }
+
+
 }

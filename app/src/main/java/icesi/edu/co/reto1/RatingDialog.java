@@ -34,6 +34,10 @@ public class RatingDialog extends DialogFragment implements View.OnClickListener
         // Required empty public constructor
     }
 
+    public void setListener(onSumitListener listener){
+        this.listener = listener;
+    }
+
     public static RatingDialog newInstance() {
         RatingDialog fragment = new RatingDialog();
         Bundle args = new Bundle();
@@ -70,9 +74,6 @@ public class RatingDialog extends DialogFragment implements View.OnClickListener
         return root;
     }
 
-    public void setListener(onSumitListener listener){
-        this.listener = listener;
-    }
 
     @Override
     public void onClick(View v) {
@@ -93,12 +94,19 @@ public class RatingDialog extends DialogFragment implements View.OnClickListener
                 rate = 5.0;
                 break;
             case R.id.sumitRate:
-                if(listener!=null)
+                if(listener!=null) {
                     listener.onSumit(rate, placeNameET.getText().toString());
+                }
                 else {
                     Log.e("Error", "No hay observer");
                 }
+                try {
+                    finalize();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
                 break;
+
         }
     }
 
@@ -106,4 +114,9 @@ public class RatingDialog extends DialogFragment implements View.OnClickListener
         void onSumit(double rate, String placeName);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
 }
