@@ -6,14 +6,18 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import icesi.edu.co.reto1.comm.LocationWorker;
 
 import android.provider.MediaStore;
 import android.util.Log;
@@ -27,20 +31,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 
-public class NewItemFragment extends Fragment implements View.OnClickListener, ModalDialog.OnOkListener, MapsFragment.OnOkListener{
+public class NewItemFragment extends Fragment implements View.OnClickListener, ModalDialog.OnOkListener{
     private EditText nameText;
     private TextView addressText;
     private Button btnRegister;
     private Button btnAddImage;
     private ImageView mainImage;
+    private Button addressBtn;
     private ModalDialog dialog;
     private File file;
-    private MapsFragment maps;
+
 
     public static final int PERMISSIONS_CALLBACK =11;
     private static final int CAMERA_CALLBACK=12;
@@ -61,15 +70,22 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_new_item, container, false);
+
+    //   String direccion=  getActivity().getIntent().getExtras().getString("direccion");
+    String dir = getArguments().getString("direccion");
+    Log.e("aquiiiiiiiiiiiiiiii", "dir"+dir);
+
         nameText = root.findViewById(R.id.nameText);
         btnRegister = root.findViewById(R.id.btnRegister);
         btnAddImage = root.findViewById(R.id.btnAddImage);
         mainImage = root.findViewById(R.id.mainImage);
         addressText = root.findViewById(R.id.addressText);
+        addressBtn = root.findViewById(R.id.addressBtn);
 
-
+        addressBtn.setOnClickListener(this);
         btnAddImage.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
+        addressText.setText(dir);
 
         //Camara
        ActivityCompat.requestPermissions(getActivity(), new String[]{
@@ -80,7 +96,6 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
                         Manifest.permission.ACCESS_FINE_LOCATION
                 },
                 PERMISSIONS_CALLBACK);
-
         return root;
     }
 
@@ -96,6 +111,9 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
                 dialog.setListener(this);
                 dialog.show(getFragmentManager(),"dialog");
                 break;
+            case R.id.addressBtn:
+               break;
+
         }
     }
 
@@ -118,6 +136,13 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
             Log.e(">>>>", path+"");
             Bitmap image = BitmapFactory.decodeFile(path);
             mainImage.setImageBitmap(image);
+        }
+
+        if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(getActivity(),new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION
+            }, 100);
         }
 
     }
@@ -162,8 +187,4 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
     }
 
 
-    @Override
-    public void onOkAddress(String s) {
-        addressText.setText("holaaaaaaaa");
-    }
 }

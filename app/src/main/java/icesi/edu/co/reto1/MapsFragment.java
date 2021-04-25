@@ -3,14 +3,13 @@ package icesi.edu.co.reto1;
 import
         androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import icesi.edu.co.reto1.comm.LocationWorker;
+import icesi.edu.co.reto1.model.Position;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -21,7 +20,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -38,13 +38,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MapsFragment extends Fragment implements OnMapReadyCallback, LocationListener, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener{
+public class MapsFragment extends Fragment implements OnMapReadyCallback, LocationListener, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener
+{
     private GoogleMap mMap;
     private LocationManager manager;
     private Marker me;
     private ArrayList<Marker> points;
     private Geocoder geocoder;
-    private OnOkListener listener;
+    private Button addButton;
+    private LocationWorker locationWorker;
+    private Position currentPosition;
+
 
 
     private RatingDialog dialog;
@@ -59,6 +63,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         mMap.setOnMapClickListener(this);
         mMap.setOnMapLongClickListener(this);
         mMap.setOnMarkerClickListener(this);
+
+        locationWorker = new LocationWorker(this);
+        locationWorker.start();
+    }
+
+    @Override
+    public void onDestroy() {
+        locationWorker.finish();
+        super.onDestroy();
     }
 
     @Nullable
@@ -66,16 +79,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_new_item, container, false);
+        View root = inflater.inflate(R.layout.fragment_maps, container, false);
+        addButton = root.findViewById(R.id.addButton);
 
-          if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-              != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(getActivity(),new String[]{
-              Manifest.permission.ACCESS_FINE_LOCATION
-            }, 100);
-        }
-        return inflater.inflate(R.layout.fragment_maps, container, false);
 
+        return root;
     }
 
     @Override
@@ -86,10 +94,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
+
         points = new ArrayList<>();
         geocoder = new Geocoder(getActivity());
         manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
     }
 
     public static MapsFragment newInstance() {
@@ -114,16 +122,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     }
 
     public void updateMyLocation(Location location){
-        LatLng myPos = new LatLng(location.getLatitude(), location.getLongitude());
+        LatLng  myPos = new LatLng(location.getLatitude(), location.getLongitude());
         String cityName = getCityName(myPos);
         if (me == null) {
-            me = mMap.addMarker(new MarkerOptions().position(myPos).title("yo"+cityName).icon(BitmapDescriptorFactory.fromResource(R.drawable.person)));
+            me = mMap.addMarker(new MarkerOptions().position(myPos).title("yo").icon(BitmapDescriptorFactory.fromResource(R.drawable.person)));
         } else {
             me.setPosition(myPos);
         }
-
- mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPos,17));
-}
+          mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPos,17));
+        currentPosition= new Position(location.getLatitude(), location.getLongitude());
+    }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) { }
@@ -141,24 +149,38 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        String cityName = getCityName(latLng);
-        Marker p =  mMap.addMarker(new MarkerOptions().position(latLng).title("marcador"+cityName));
+       String cityName = getCityName(latLng);
+        Marker p =  mMap.addMarker(new MarkerOptions().position(latLng).title("marcador"));
         points.add(p);
-        //listener.onOkAddress("");
 
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        String dir = getCityName(marker.getPosition());
         Toast.makeText(getContext(), marker.getPosition().latitude+", "+marker.getPosition().longitude, Toast.LENGTH_LONG).show();
+        marker.setSnippet(getCityName(marker.getPosition()));
+        NewItemFragment newI= new NewItemFragment();
+                // Intent intent = new Intent(getContext(), NewItemFragment.class);
+                //intent.putExtra("direccion", direccion);
+                //getContext().startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.getString("direccion", dir);
+               // bundle.putString("direccion", dir);
+                newI.setArguments(bundle);
         marker.showInfoWindow();
-        //Probablemente este dialog se borre, era para poder actualizar la puntuacion de un lugar
-        //dialog = RatingDialog.newInstance();
-        //dialog.setListener(this);
+        <<<<<<< HEAD
+//Probablemente este dialog se borre, era para poder actualizar la puntuacion de un lugar
+//dialog = RatingDialog.newInstance();
+//dialog.setListener(this);
+=======
+
+
+        >>>>>>> afc7bcdb3f3f2cb914fbcbadec935d8218f44601
         return true;
     }
 
-    private String getCityName(LatLng myPos){
+   public String getCityName(LatLng myPos){
         String myCity="";
         try {
             geocoder = new Geocoder(getActivity(), Locale.getDefault());
@@ -169,18 +191,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
             } catch(IOException e){
                 e.printStackTrace();
             }
-
         return myCity;
-
     }
 
-    public void setListener(OnOkListener listener) {
-        this.listener= listener;
+    public Position getCurrentPosition(){
+    return currentPosition;
     }
 
-    public interface OnOkListener{
-        void onOkAddress(String s);
+    public Marker getMarker(){
+       return me;
     }
+
+
 
 }
 
