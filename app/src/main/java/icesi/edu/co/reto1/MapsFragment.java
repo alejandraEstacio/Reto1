@@ -106,7 +106,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         LatLng myPos = new LatLng(location.getLatitude(), location.getLongitude());
 
             if (me == null) {
-                    me = mMap.addMarker(new MarkerOptions().position(myPos).title("yo"));
+                    me = mMap.addMarker(new MarkerOptions().position(myPos).title("Yo"));
             } else {
                 me.setPosition(myPos);
                 //   String cityName= getCityName(myPos);
