@@ -52,9 +52,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 
     private HomeActivity home;
 
-
-
     private RatingDialog dialog;
+
+    public RatingDialog getDialog() {
+        return dialog;
+    }
 
     @SuppressLint("MissingPermission")
     @Override
@@ -173,9 +175,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                 newI.setArguments(bundle);
         marker.showInfoWindow();
 
-//Probablemente este dialog se borre, era para poder actualizar la puntuacion de un lugar
-//dialog = RatingDialog.newInstance();
-//dialog.setListener(this);
+        //Probablemente este dialog se borre, era para poder actualizar la puntuacion de un lugar
+        dialog = RatingDialog.newInstance();
+        dialog.setListener(home);
+        dialog.show(getActivity().getSupportFragmentManager(), "Rate Dialog");
+
 
         return true;
     }

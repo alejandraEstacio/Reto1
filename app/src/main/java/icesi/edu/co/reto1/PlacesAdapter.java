@@ -19,13 +19,11 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlaceView> {
     public PlacesAdapter(){
 
         places = new ArrayList<>();
-        places.add(new Place(UUID.randomUUID().toString(), "plaza 1", 3.2));
-        places.add(new Place(UUID.randomUUID().toString(), "plaza 2", 3.8));
-        places.add(new Place(UUID.randomUUID().toString(), "plaza 3", 1.0));
+
     }
 
-    public void addPlace(Place place){
-        places.add(place);
+    public void setPlaces(ArrayList<Place> places){
+        this.places = places;
         this.notifyDataSetChanged();
     }
 
@@ -55,13 +53,5 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlaceView> {
     }
 
 
-    public void onSumit(double rate, String placeName) {
-        boolean still = false;
-        for(int i=0; i<places.size()&&!still;i++){
-            if(places.get(i).getName().equals(placeName)) {
-                places.get(i).recalculateRate(rate);
-                still=true;
-            }
-        }
-    }
+
 }
