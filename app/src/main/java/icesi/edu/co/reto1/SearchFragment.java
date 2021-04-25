@@ -18,6 +18,8 @@ public class SearchFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private PlacesAdapter adapter;
 
+    private HomeActivity home;
+
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -49,5 +51,10 @@ public class SearchFragment extends Fragment {
         placesViewList.setLayoutManager(layoutManager);
 
         return root;
+    }
+
+    public void setHome(HomeActivity homeActivity) {
+
+        this.home = homeActivity;
     }
 }

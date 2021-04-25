@@ -44,13 +44,16 @@ public class HomeActivity extends AppCompatActivity {
                     switch (menuItem.getItemId()){
                         case R.id.newPlace:
                             showFragment(newItemFragment);
-                        break;
+                            newItemFragment.setHome(this);
+                            break;
                         case R.id.map:
                             showFragment(mapsFragment);
+                            mapsFragment.setHome(this);
                             break;
                         case R.id.search:
                             showFragment(searchFragment);
-                        break;
+                            searchFragment.setHome(this);
+                            break;
                     }
                     return  true;
                 }
@@ -72,6 +75,10 @@ public class HomeActivity extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragmentContainer, fragment);
         transaction.commit();
+    }
+
+    public void cancelarSemestre(int unaMillonada){
+
     }
 
 }

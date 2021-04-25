@@ -50,6 +50,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     private Position currentPosition;
 
 
+    private HomeActivity home;
+
+
+
+    private RatingDialog dialog;
+
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -77,7 +83,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_maps, container, false);
-       addButton = root.findViewById(R.id.addButton);
+        addButton = root.findViewById(R.id.addButton);
 
 
         return root;
@@ -167,6 +173,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                 newI.setArguments(bundle);
         marker.showInfoWindow();
 
+//Probablemente este dialog se borre, era para poder actualizar la puntuacion de un lugar
+//dialog = RatingDialog.newInstance();
+//dialog.setListener(this);
 
         return true;
     }
@@ -194,6 +203,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     }
 
 
-
+    public void setHome(HomeActivity homeActivity) {
+        home = homeActivity;
+    }
 }
 

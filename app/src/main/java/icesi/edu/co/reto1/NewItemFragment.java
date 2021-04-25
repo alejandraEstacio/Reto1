@@ -6,19 +6,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
-import icesi.edu.co.reto1.comm.LocationWorker;
-
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,13 +19,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.Gson;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -49,6 +39,9 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
     private Button addressBtn;
     private ModalDialog dialog;
     private File file;
+
+
+    private HomeActivity home;
 
 
     public static final int PERMISSIONS_CALLBACK =11;
@@ -187,4 +180,7 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
     }
 
 
+    public void setHome(HomeActivity homeActivity) {
+        this.home = homeActivity;
+    }
 }

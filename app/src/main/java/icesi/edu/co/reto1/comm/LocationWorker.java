@@ -1,21 +1,17 @@
 package icesi.edu.co.reto1.comm;
 
-import android.location.Address;
-import android.location.Geocoder;
-
 import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-
 import icesi.edu.co.reto1.MapsFragment;
-import icesi.edu.co.reto1.model.Position;
-
 
 public class LocationWorker extends Thread{
 
     private MapsFragment ref;
+    private String address;
+
+    public LocationWorker(){
+        this.address = address;
+    }
 
     public LocationWorker(MapsFragment ref){
         this.ref = ref;
@@ -45,13 +41,13 @@ public class LocationWorker extends Thread{
 
     }
 
-    public String getCityName(){
+    /*public String getCityName(){
         String myCity = "";
         if( ref.getCurrentPosition()!= null) {
-           Position pos = new Position(ref.getCurrentPosition().getLat(), ref.getCurrentPosition().getLng());
+         //   Position pos = new Position(ref.getCurrentPosition().getLat(), ref.getCurrentPosition().getLng());
             try {
                 Geocoder geocoder = new Geocoder(ref.getActivity(), Locale.getDefault());
-                List<Address> addresses = geocoder.getFromLocation(pos.getLat(), pos.getLng(), 1);
+                List<Address> addresses = geocoder.getFromLocation(ref.getCurrentPosition().getLat(), ref.getCurrentPosition().getLng(), 1);
                 if (addresses.size() > 0) {
                     myCity = addresses.get(0).getAddressLine(0);
                 }
@@ -61,4 +57,12 @@ public class LocationWorker extends Thread{
         }
         return myCity;
     }
+
+    public String darDireccion(){
+        address = ref.getCityName(pos);
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }*/
 }
