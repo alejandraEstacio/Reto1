@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
@@ -97,5 +98,19 @@ public class HomeActivity extends AppCompatActivity implements RatingDialog.onSu
             }
         }
         mapsFragment.getDialog().dismiss();
+    }
+
+    public void addPlace(LatLng place){
+        showFragment(newItemFragment);
+        newItemFragment.setHome(this);
+
+        runOnUiThread(
+                ()->{
+                    newItemFragment.getAddressText().setText(place.toString());
+                }
+
+        );
+
+
     }
 }

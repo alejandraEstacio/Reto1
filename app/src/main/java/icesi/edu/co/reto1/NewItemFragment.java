@@ -64,10 +64,6 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_new_item, container, false);
 
-    //   String direccion=  getActivity().getIntent().getExtras().getString("direccion");
-    String dir = getArguments().getString("direccion");
-    Log.e("aquiiiiiiiiiiiiiiii", "dir"+dir);
-
         nameText = root.findViewById(R.id.nameText);
         btnRegister = root.findViewById(R.id.btnRegister);
         btnAddImage = root.findViewById(R.id.btnAddImage);
@@ -78,7 +74,6 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
         addressBtn.setOnClickListener(this);
         btnAddImage.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
-        addressText.setText(dir);
 
         //Camara
        ActivityCompat.requestPermissions(getActivity(), new String[]{
@@ -182,5 +177,13 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
 
     public void setHome(HomeActivity homeActivity) {
         this.home = homeActivity;
+    }
+
+    public TextView getAddressText() {
+        return addressText;
+    }
+
+    public void setAddressText(TextView addressText) {
+        this.addressText = addressText;
     }
 }

@@ -49,7 +49,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     private LocationWorker locationWorker;
     private Position currentPosition;
 
-
     private HomeActivity home;
 
     private RatingDialog dialog;
@@ -157,6 +156,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
        String cityName = getCityName(latLng);
         Marker p =  mMap.addMarker(new MarkerOptions().position(latLng).title("marcador"));
         points.add(p);
+        home.addPlace(latLng);
 
     }
 
@@ -165,22 +165,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         String dir = getCityName(marker.getPosition());
         Toast.makeText(getContext(), marker.getPosition().latitude+", "+marker.getPosition().longitude, Toast.LENGTH_LONG).show();
         marker.setSnippet(getCityName(marker.getPosition()));
-        NewItemFragment newI= new NewItemFragment();
-                // Intent intent = new Intent(getContext(), NewItemFragment.class);
-                //intent.putExtra("direccion", direccion);
-                //getContext().startActivity(intent);
-                Bundle bundle = new Bundle();
-                bundle.getString("direccion", dir);
-               // bundle.putString("direccion", dir);
-                newI.setArguments(bundle);
         marker.showInfoWindow();
-
         //Probablemente este dialog se borre, era para poder actualizar la puntuacion de un lugar
         dialog = RatingDialog.newInstance();
         dialog.setListener(home);
         dialog.show(getActivity().getSupportFragmentManager(), "Rate Dialog");
-
-
+        
         return true;
     }
 
