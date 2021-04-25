@@ -46,6 +46,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     private Geocoder geocoder;
     private OnOkListener listener;
 
+
+    private RatingDialog dialog;
+
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -141,7 +144,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         String cityName = getCityName(latLng);
         Marker p =  mMap.addMarker(new MarkerOptions().position(latLng).title("marcador"+cityName));
         points.add(p);
-        listener.onOkAddress("");
+        //listener.onOkAddress("");
 
     }
 
@@ -149,6 +152,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     public boolean onMarkerClick(Marker marker) {
         Toast.makeText(getContext(), marker.getPosition().latitude+", "+marker.getPosition().longitude, Toast.LENGTH_LONG).show();
         marker.showInfoWindow();
+        //Probablemente este dialog se borre, era para poder actualizar la puntuacion de un lugar
+        //dialog = RatingDialog.newInstance();
+        //dialog.setListener(this);
         return true;
     }
 

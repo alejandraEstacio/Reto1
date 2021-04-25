@@ -37,4 +37,9 @@ public class Place {
     public void setRate(double rate) {
         this.rate = rate;
     }
+
+    public void recalculateRate(double rate){
+        double aux = (this.rate+rate)/2;
+        this.rate = aux;
+    }
 }

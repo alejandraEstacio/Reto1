@@ -3,7 +3,6 @@ package icesi.edu.co.reto1;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -12,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class PlacesAdapter extends RecyclerView.Adapter<PlaceView> {
+public class PlacesAdapter extends RecyclerView.Adapter<PlaceView> implements RatingDialog.onSumitListener{
 
     private ArrayList<Place> places;
 
@@ -54,4 +53,14 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlaceView> {
         return places.size();
     }
 
+    @Override
+    public void onSumit(double rate, String placeName) {
+        boolean still = false;
+        for(int i=0; i<places.size()&&!still;i++){
+            if(places.get(i).getName().equals(placeName)) {
+                places.get(i).recalculateRate(rate);
+                still=true;
+            }
+        }
+    }
 }
