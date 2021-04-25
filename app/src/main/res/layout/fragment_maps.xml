@@ -31,4 +31,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="Places"
         app:titleTextColor="@color/white" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

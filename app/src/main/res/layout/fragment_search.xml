@@ -45,7 +45,6 @@
         android:inputType="textPersonName"
         android:textColorHint="@color/white"
         app:barrierMargin="@dimen/cardview_compat_inset_shadow"
-        app:layout_constraintBottom_toTopOf="@+id/placesViewList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
