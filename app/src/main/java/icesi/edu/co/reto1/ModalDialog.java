@@ -66,7 +66,7 @@ public class ModalDialog extends DialogFragment implements  View.OnClickListener
     }
 
 
-    public void setListener(OnOkListener listener){
+public void setListener(OnOkListener listener){
         this.listener= listener;
     }
     public interface OnOkListener{
