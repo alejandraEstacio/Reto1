@@ -113,4 +113,8 @@ public class HomeActivity extends AppCompatActivity implements RatingDialog.onSu
 
 
     }
+
+    public void findByLocation(LatLng latLng){
+
+    }
 }

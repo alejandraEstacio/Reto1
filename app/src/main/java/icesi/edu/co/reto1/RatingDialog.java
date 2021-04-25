@@ -25,13 +25,28 @@ public class RatingDialog extends DialogFragment implements View.OnClickListener
     private TextView addressET;
     private TextView placeNameET;
     private ImageView imagePlace;
-
     private double rate;
 
     private onSumitListener listener;
 
+    private Place place;
+
+    public TextView getPlaceNameET() {
+        return placeNameET;
+    }
+
+    public void setPlaceNameET(TextView placeNameET) {
+        this.placeNameET = placeNameET;
+    }
+
     public RatingDialog() {
         // Required empty public constructor
+    }
+
+    public void setPlace(Place place){
+
+        this.place = place;
+        rate = place.getRate();
     }
 
     public void setListener(onSumitListener listener){
@@ -50,7 +65,6 @@ public class RatingDialog extends DialogFragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        rate = 0.0;
 
         View root = inflater.inflate(R.layout.fragment_rating, container, false);
 
@@ -61,6 +75,7 @@ public class RatingDialog extends DialogFragment implements View.OnClickListener
         rate5 = root.findViewById(R.id.rate1);
         sumitRate = root.findViewById(R.id.sumitRate);
         addressET = root.findViewById(R.id.addressET);
+
         placeNameET = root.findViewById(R.id.placeName);
         imagePlace = root.findViewById(R.id.imagePlace);
 

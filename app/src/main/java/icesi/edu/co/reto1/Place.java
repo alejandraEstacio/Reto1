@@ -4,6 +4,7 @@ public class Place {
 
     private String id;
     private String name;
+    private String address;
     private double rate;
 
     public Place(){ }
@@ -11,6 +12,13 @@ public class Place {
     public Place(String id, String name, double rate) {
         this.id = id;
         this.name = name;
+        this.rate = rate;
+    }
+
+    public Place(String id, String name,String address, double rate){
+        this.id = id;
+        this.name = name;
+        this.address = address;
         this.rate = rate;
     }
 

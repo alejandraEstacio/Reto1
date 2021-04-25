@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback, LocationListener, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener
 {
@@ -156,7 +157,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
        String cityName = getCityName(latLng);
         Marker p =  mMap.addMarker(new MarkerOptions().position(latLng).title("marcador"));
         points.add(p);
-        home.addPlace(latLng);
+        //home.addPlace(latLng);
 
     }
 
@@ -166,11 +167,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         Toast.makeText(getContext(), marker.getPosition().latitude+", "+marker.getPosition().longitude, Toast.LENGTH_LONG).show();
         marker.setSnippet(getCityName(marker.getPosition()));
         marker.showInfoWindow();
-        //Probablemente este dialog se borre, era para poder actualizar la puntuacion de un lugar
+
         dialog = RatingDialog.newInstance();
         dialog.setListener(home);
+        //int position = home.
+        dialog.setPlace(new Place(UUID.randomUUID().toString(), dir, 0.0));
         dialog.show(getActivity().getSupportFragmentManager(), "Rate Dialog");
-        
+
+
         return true;
     }
 
