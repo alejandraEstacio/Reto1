@@ -162,7 +162,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                 Bundle bundle = new Bundle();
                 bundle.putString("direccion", getCityName(points.get(points.size()-1).getPosition()));
                 getParentFragmentManager().setFragmentResult("key", bundle);
-                home.changeToNew();
+                //home.changeToNew();
             }
         });
 

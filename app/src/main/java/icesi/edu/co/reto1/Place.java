@@ -50,4 +50,12 @@ public class Place {
         double aux = (this.rate+rate)/2;
         this.rate = aux;
     }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }

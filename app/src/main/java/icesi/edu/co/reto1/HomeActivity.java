@@ -60,7 +60,7 @@ public class HomeActivity extends AppCompatActivity implements RatingDialog.onSu
                             showFragment(mapsFragment);
                             if(mapsFragment.getPoints()!=null) {
                                 if(mapsFragment.getPoints().size()>0){
-                                    mapsFragment.drawMarkets();
+                                    //mapsFragment.drawMarkets();
                                 }
                             }
                             mapsFragment.setHome(this);
@@ -109,5 +109,10 @@ public class HomeActivity extends AppCompatActivity implements RatingDialog.onSu
     public void changeToNew() {
         showFragment(newItemFragment);
         newItemFragment.setHome(this);
+    }
+
+    public void addPlace(Place place){
+        places.add(place);
+        searchFragment.getAdapter().setPlaces(places);
     }
 }

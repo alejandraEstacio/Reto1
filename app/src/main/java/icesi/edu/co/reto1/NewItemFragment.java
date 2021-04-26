@@ -30,6 +30,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 
 import java.io.File;
+import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -95,12 +96,16 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
         switch (v.getId()){
             case R.id.btnRegister:
                 Toast.makeText(getContext(), nameText.getText().toString(), Toast.LENGTH_LONG).show();
+                Place place = new Place(UUID.randomUUID().toString(),nameText.getText().toString(), addressText.getText().toString(), 0.0);
+                
                 break;
 
             case R.id.btnAddImage:
                 dialog = ModalDialog.newInstance();
                 dialog.setListener(this);
-                dialog.show(getFragmentManager(),"dialog");
+                if (getFragmentManager() != null) {
+                    dialog.show(getFragmentManager(),"dialog");
+                }
                 break;
             case R.id.addressBtn:
                break;
@@ -113,7 +118,7 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
         super.onCreate(savedInstanceState);
         getParentFragmentManager().setFragmentResultListener("key", this, new FragmentResultListener() {
             @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+            public void onFragmentResult( String requestKey,  Bundle bundle) {
               String dir = bundle.getString("direccion");
               addressText.setText(dir);
 

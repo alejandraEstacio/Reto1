@@ -57,5 +57,7 @@ public class SearchFragment extends Fragment {
         this.home = homeActivity;
     }
 
-
+    public PlacesAdapter getAdapter(){
+        return this.adapter;
+    }
 }
