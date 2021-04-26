@@ -160,7 +160,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
-                bundle.putString("direccion", getCityName(p.getPosition()));
+                bundle.putString("direccion", getCityName(points.get(points.size()-1).getPosition()));
                 getParentFragmentManager().setFragmentResult("key", bundle);
                 home.changeToNew();
             }
@@ -219,6 +219,21 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 
     public void setPoints(ArrayList<Marker> points) {
         this.points = points;
+    }
+
+    public void drawMarkets() {
+
+        if(getActivity()!=null){
+            getActivity().runOnUiThread(
+                    () -> {
+
+                        for (int i = 0; i < points.size(); i++) {
+                            Marker marker = points.get(i);
+                            Marker marker1 = mMap.addMarker(new MarkerOptions().position(marker.getPosition()).title(marker.getSnippet()));
+                        }
+                    }
+            );
+        }
     }
 }
 
