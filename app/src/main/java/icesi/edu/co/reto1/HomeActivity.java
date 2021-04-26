@@ -101,4 +101,8 @@ public class HomeActivity extends AppCompatActivity implements RatingDialog.onSu
     }
 
 
+    public void changeToNew() {
+        showFragment(newItemFragment);
+        newItemFragment.setHome(this);
+    }
 }

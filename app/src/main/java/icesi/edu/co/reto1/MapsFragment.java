@@ -85,6 +85,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_maps, container, false);
         addButton = root.findViewById(R.id.addButton);
+        addButton.setVisibility(View.INVISIBLE);
 
         return root;
     }
@@ -154,15 +155,17 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
        String cityName = getCityName(latLng);
         Marker p =  mMap.addMarker(new MarkerOptions().position(latLng).title("marcador"));
         points.add(p);
+        addButton.setVisibility(View.VISIBLE);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putString("direccion", getCityName(p.getPosition()));
                 getParentFragmentManager().setFragmentResult("key", bundle);
-
+                home.changeToNew();
             }
         });
+
 
     }
 
@@ -172,7 +175,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         Toast.makeText(getContext(), marker.getPosition().latitude+", "+marker.getPosition().longitude, Toast.LENGTH_LONG).show();
         marker.setSnippet(getCityName(marker.getPosition()));
         marker.showInfoWindow();
-        //Probablemente este dialog se borre, era para poder actualizar la puntuacion de un lugar
+
         dialog = RatingDialog.newInstance();
         dialog.setListener(home);
         //int position = home.
