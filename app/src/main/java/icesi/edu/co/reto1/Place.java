@@ -1,11 +1,19 @@
 package icesi.edu.co.reto1;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
+
+import icesi.edu.co.reto1.model.Position;
+
 public class Place {
 
     private String id;
     private String name;
     private String address;
     private double rate;
+    private Drawable img;
+    private Position pos;
 
     public Place(){ }
 
@@ -15,11 +23,13 @@ public class Place {
         this.rate = rate;
     }
 
-    public Place(String id, String name,String address, double rate){
+    public Place(String id, String name,String address, double rate, Position pos, Drawable img){
         this.id = id;
         this.name = name;
         this.address = address;
         this.rate = rate;
+        this.pos = pos;
+        this.img = img;
     }
 
     public String getId() {
@@ -57,5 +67,21 @@ public class Place {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Position getPos() {
+        return pos;
+    }
+
+    public void setPos(Position pos) {
+        this.pos = pos;
+    }
+
+    public Drawable getImg() {
+        return img;
+    }
+
+    public void setImg(Drawable img) {
+        this.img = img;
     }
 }

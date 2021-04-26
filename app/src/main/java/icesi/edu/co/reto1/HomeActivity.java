@@ -10,6 +10,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import icesi.edu.co.reto1.comm.LocationWorker;
 
 import android.Manifest;
 
@@ -55,15 +56,18 @@ public class HomeActivity extends AppCompatActivity implements RatingDialog.onSu
                         case R.id.newPlace:
                             showFragment(newItemFragment);
                             newItemFragment.setHome(this);
+
                             break;
                         case R.id.map:
                             showFragment(mapsFragment);
-                            if(mapsFragment.getPoints()!=null) {
-                                if(mapsFragment.getPoints().size()>0){
+                            // if(mapsFragment.getPoints()!=null) {
+
+                             //   if(mapsFragment.getPoints().size()>0){
                                     //mapsFragment.drawMarkets();
-                                }
-                            }
+                             // }
+                         //  }
                             mapsFragment.setHome(this);
+                            //mapsFragment.darMarcadores(places);
                             break;
                         case R.id.search:
                             showFragment(searchFragment);
@@ -105,14 +109,16 @@ public class HomeActivity extends AppCompatActivity implements RatingDialog.onSu
         mapsFragment.getDialog().dismiss();
     }
 
-
     public void changeToNew() {
         showFragment(newItemFragment);
         newItemFragment.setHome(this);
     }
 
+
+
     public void addPlace(Place place){
         places.add(place);
         searchFragment.getAdapter().setPlaces(places);
     }
+
 }

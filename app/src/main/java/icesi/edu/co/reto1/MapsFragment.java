@@ -47,7 +47,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     private ArrayList<Marker> points;
     private Geocoder geocoder;
     private Button addButton;
-    private LocationWorker locationWorker;
     private Position currentPosition;
 
     private HomeActivity home;
@@ -68,16 +67,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         mMap.setOnMapClickListener(this);
         mMap.setOnMapLongClickListener(this);
         mMap.setOnMarkerClickListener(this);
-        locationWorker = new LocationWorker(this);
-        locationWorker.start();
+       // locationWorker = new LocationWorker(this);
+       // locationWorker.start();
     }
 
-    @Override
+   /* @Override
     public void onDestroy() {
         locationWorker.finish();
         super.onDestroy();
-    }
-
+    }*/
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -132,7 +130,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         } else {
             me.setPosition(myPos);
         }
-          mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPos,17));
+        points.add(me);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPos,17));
         currentPosition= new Position(location.getLatitude(), location.getLongitude());
     }
 
@@ -152,8 +151,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-       String cityName = getCityName(latLng);
-        Marker p =  mMap.addMarker(new MarkerOptions().position(latLng).title("marcador"));
+       Marker p =  mMap.addMarker(new MarkerOptions().position(latLng).title("marcador"));
         points.add(p);
         addButton.setVisibility(View.VISIBLE);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -161,11 +159,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putString("direccion", getCityName(points.get(points.size()-1).getPosition()));
+                bundle.putDouble("lat", points.get(points.size()-1).getPosition().latitude);
+                bundle.putDouble("lng", points.get(points.size()-1).getPosition().latitude);
                 getParentFragmentManager().setFragmentResult("key", bundle);
                 //home.changeToNew();
             }
         });
-
 
     }
 
@@ -178,34 +177,34 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 
         dialog = RatingDialog.newInstance();
         dialog.setListener(home);
-        //int position = home.
+
         dialog.setPlace(new Place(UUID.randomUUID().toString(), dir, 0.0));
         dialog.show(getActivity().getSupportFragmentManager(), "Rate Dialog");
-      //  home.addPlace(marker.getPosition());
+        //  home.addPlace(marker.getPosition());
 
         return true;
     }
 
-   public String getCityName(LatLng myPos){
+    public String getCityName(LatLng myPos){
         String myCity="";
         try {
             geocoder = new Geocoder(getActivity(), Locale.getDefault());
             List<Address> addresses = geocoder.getFromLocation(myPos.latitude, myPos.longitude, 1);
-           if (addresses.size() > 0) {
+            if (addresses.size() > 0) {
                 myCity = addresses.get(0).getAddressLine(0);
-           }
-            } catch(IOException e){
-                e.printStackTrace();
             }
+        } catch(IOException e){
+            e.printStackTrace();
+        }
         return myCity;
     }
 
     public Position getCurrentPosition(){
-    return currentPosition;
+        return currentPosition;
     }
 
     public Marker getMarker(){
-       return me;
+        return me;
     }
 
 
@@ -219,6 +218,25 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 
     public void setPoints(ArrayList<Marker> points) {
         this.points = points;
+    }
+
+    public void darMarcadores(ArrayList<Place> places){
+        if(getActivity()!=null){
+            getActivity().runOnUiThread(
+                    () -> {
+                        for(int i =0; i<points.size();i++){
+                            Marker m= points.get(i);
+                            m.remove();
+                        }
+                        points.clear();
+                        for(int i =0; i<places.size(); i++){
+                        LatLng pos = new LatLng(places.get(i).getPos().getLat(), places.get(i).getPos().getLng());
+                        Marker marker = mMap.addMarker((new MarkerOptions().position(pos).title(""+places.get(i).getName())));
+                        points.add(marker);
+                       }
+                    }
+            );
+        }
     }
 
     public void drawMarkets() {
@@ -236,4 +254,3 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         }
     }
 }
-
