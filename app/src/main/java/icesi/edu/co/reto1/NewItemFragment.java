@@ -97,7 +97,7 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
             case R.id.btnRegister:
                 Toast.makeText(getContext(), nameText.getText().toString(), Toast.LENGTH_LONG).show();
                 Place place = new Place(UUID.randomUUID().toString(),nameText.getText().toString(), addressText.getText().toString(), 0.0);
-                
+                home.addPlace(place);
                 break;
 
             case R.id.btnAddImage:
