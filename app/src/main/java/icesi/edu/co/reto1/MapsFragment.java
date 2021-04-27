@@ -147,6 +147,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         for(int i = 0; i< points.size(); i++){
             Marker marker = points.get(i);
             LatLng markerLoc = marker.getPosition();
+            String dir = getCityName(marker.getPosition());
             LatLng meLoc = me.getPosition();
             double meters = SphericalUtil.computeDistanceBetween(markerLoc, meLoc);
             Log.e(">>>>>", "metros a marcador"+ i+":"+meters+"m");
@@ -154,7 +155,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
             if(meters<10){
                 dialog = RatingDialog.newInstance();
                 dialog.setListener(home);
-                dialog.setPlace(new Place(UUID.randomUUID().toString(), marker.getTitle(), "ndcck", 0.0));
+                dialog.setPlace(new Place(UUID.randomUUID().toString(), marker.getTitle(), dir, 0.0));
                 dialog.show(getActivity().getSupportFragmentManager(), "Rate Dialog");
             }
         }
@@ -199,13 +200,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         Toast.makeText(getContext(), marker.getPosition().latitude+", "+marker.getPosition().longitude, Toast.LENGTH_LONG).show();
         marker.setSnippet(getCityName(marker.getPosition()));
         marker.showInfoWindow();
-
-        dialog = RatingDialog.newInstance();
-        dialog.setListener(home);
-
-        dialog.setPlace(new Place(UUID.randomUUID().toString(), marker.getTitle(), dir, 0.0));
-        dialog.show(getActivity().getSupportFragmentManager(), "Rate Dialog");
-
         return true;
     }
 
@@ -242,7 +236,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
            );
     }
 
-
    public void drawMarkets() {
             getActivity().runOnUiThread(
                     () -> {
@@ -250,6 +243,29 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                          me = mMap.addMarker((new MarkerOptions().position(pos).title("yo").icon(BitmapDescriptorFactory.fromResource(R.drawable.person))));
                     }
             );
+    }
+
+    public int findPositionMarkerByAddress(String address){
+    int number = -1;
+        for(int i =0; i<points.size(); i++){
+            if(points.get(i).getSnippet().contains(address)){
+                number = i ;
+
+            }
+        }
+        return number;
+    }
+    public void animationToMarker(int posicion){
+        if(posicion ==-1){
+            Log.e("ERROR","Error de la direccion");
+        }else {
+            Marker marker = points.get(posicion);
+                    getActivity().runOnUiThread(
+                            () -> {
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 10));
+                            }
+                    );
+        }
     }
 
     public Position getCurrentPosition(){
