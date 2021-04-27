@@ -89,6 +89,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_maps, container, false);
+        geocoder = new Geocoder(getActivity(), Locale.getDefault());
         addButton = root.findViewById(R.id.addButton);
         addButton.setVisibility(View.INVISIBLE);
 
@@ -139,7 +140,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         }
         currentPosition= new Position(location.getLatitude(), location.getLongitude());
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPos,17));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(me.getPosition(),17));
     }
 
     private void computedDistances(){
@@ -205,7 +206,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     public String getCityName(LatLng myPos){
         String myCity="";
         try {
-            geocoder = new Geocoder(getActivity(), Locale.getDefault());
+
             List<Address> addresses = geocoder.getFromLocation(myPos.latitude, myPos.longitude, 1);
             if (addresses.size() > 0) {
                 myCity = addresses.get(0).getAddressLine(0);
@@ -255,10 +256,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     public int findPositionMarkerByAddress(String address){
     int number = -1;
         for(int i =0; i<points.size(); i++){
-            if(points.get(i).getSnippet().contains(address)){
-                number = i ;
+            //if(points.get(i).getSnippet()!=null) {
+                Log.v("algo", points.get(i).getPosition()+"");
+                String dir = getCityName(points.get(i).getPosition());
+                if (dir.contains(address)) {
+                    number = i;
 
-            }
+                }
+            //}
         }
         return number;
     }
@@ -267,11 +272,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
             Log.e("ERROR","Error de la direccion");
         }else {
             Marker marker = points.get(posicion);
-                    getActivity().runOnUiThread(
-                            () -> {
-                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 10));
-                            }
-                    );
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 20));
+
         }
     }
 
