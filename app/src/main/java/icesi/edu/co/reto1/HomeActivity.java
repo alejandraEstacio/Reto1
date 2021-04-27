@@ -53,14 +53,7 @@ public class HomeActivity extends AppCompatActivity implements RatingDialog.onSu
                             break;
                         case R.id.map:
                             showFragment(mapsFragment);
-                            // if(mapsFragment.getPoints()!=null) {
-
-                             //   if(mapsFragment.getPoints().size()>0){
-                                    //mapsFragment.drawMarkets();
-                             // }
-                         //  }
                             mapsFragment.setHome(this);
-                            //mapsFragment.darMarcadores(places);
                             break;
                         case R.id.search:
                             showFragment(searchFragment);
@@ -115,6 +108,9 @@ public class HomeActivity extends AppCompatActivity implements RatingDialog.onSu
     }
 
 
-
-
+    public void seePlace(String address) {
+        showFragment(mapsFragment);
+        mapsFragment.seePlace(address);
+        mapsFragment.setHome(this);
+    }
 }

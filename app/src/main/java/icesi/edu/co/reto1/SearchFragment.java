@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,8 @@ public class SearchFragment extends Fragment {
 
     private HomeActivity home;
 
+    private ArrayList<String> placesIDs;
+
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -33,6 +36,7 @@ public class SearchFragment extends Fragment {
         SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -43,25 +47,25 @@ public class SearchFragment extends Fragment {
 
 
         placeToSearch = root.findViewById(R.id.placeToSearch);
-<<<<<<< HEAD
         placeToSearch.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
 
                 search(placeToSearch.getText().toString());
-                Log.d( "algo","PERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRAAAAAAAAAAAAAAAAAA"+keyCode + " "+ event.toString());
+
                 return false;
             }
         });
 
-=======
->>>>>>> cc90ffd072453c115ad9a30a7aba21ac0e3760ab
         placesViewList =root.findViewById(R.id.placesViewList);
         placesViewList.setHasFixedSize(true);
+        //placesViewList.find
 
         adapter = new PlacesAdapter();
         adapter.setPlaces(home.getPlaces());
+        adapter.setFragment(this);
         placesViewList.setAdapter(adapter);
+
 
         layoutManager = new LinearLayoutManager(this.getContext());
         placesViewList.setLayoutManager(layoutManager);
@@ -85,4 +89,8 @@ public class SearchFragment extends Fragment {
     }
 
 
+    public void seePlace(String address) {
+
+        home.seePlace(address);
+    }
 }

@@ -7,13 +7,15 @@
 
     <TextView
         android:id="@+id/placeName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="TextView"
         android:textColor="@color/white"
         android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/imSearchBtn"
         app:layout_constraintStart_toEndOf="@+id/imPlace"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,8 +23,7 @@
         android:id="@+id/placeAverage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="7dp"
         android:layout_marginBottom="16dp"
         android:text="TextView"
         android:textColor="@color/white"
@@ -32,21 +33,20 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/imPlace"
-        app:layout_constraintTop_toBottomOf="@+id/placeName"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/placeAddr" />
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="39dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="7dp"
         android:layout_marginEnd="100dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imSearchBtn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/placeAverage"
-        app:layout_constraintTop_toBottomOf="@+id/placeName"
+        app:layout_constraintTop_toBottomOf="@+id/placeAddr"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@android:drawable/btn_star" />
 
@@ -67,12 +67,25 @@
         android:layout_width="56dp"
         android:layout_height="65dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.894"
-        app:layout_constraintStart_toEndOf="@+id/placeName"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_search" />
+
+    <TextView
+        android:id="@+id/placeAddr"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/placeAverage"
+        app:layout_constraintEnd_toStartOf="@+id/imSearchBtn"
+        app:layout_constraintStart_toEndOf="@+id/imPlace"
+        app:layout_constraintTop_toBottomOf="@+id/placeName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

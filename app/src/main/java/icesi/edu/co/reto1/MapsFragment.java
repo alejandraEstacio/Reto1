@@ -205,6 +205,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
            );
     }
 
+    public void seePlace(String address) {
+
+        int positionMarker = findPositionMarkerByAddress(address);
+        animatioTomarker();
+    }
+
+
+
 
    /* public void drawMarkets() {
 

@@ -16,12 +16,17 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlaceView> {
 
     private ArrayList<Place> places;
     private ArrayList<Place> placesMemory;
+    private SearchFragment fragment;
 
     public PlacesAdapter(){
 
         places = new ArrayList<>();
         placesMemory = new ArrayList<>();
 
+    }
+
+    public void setFragment(SearchFragment fragment) {
+        this.fragment = fragment;
     }
 
     public void setPlaces(ArrayList<Place> places){
@@ -44,7 +49,14 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlaceView> {
     public void onBindViewHolder(@NonNull PlaceView holder, int position) {
         holder.getImage().setImageDrawable(places.get(position).getImg());
         holder.getName().setText(places.get(position).getName());
+        holder.getAddress().setText(places.get(position).getAddress());
         holder.getRate().setText(""+places.get(position).getRate());
+        holder.getSeen().setOnClickListener(
+                (l)->{
+
+                    fragment.seePlace(holder.getAddress().getText().toString());
+                }
+        );
 
     }
 
