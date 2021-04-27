@@ -3,6 +3,8 @@ package icesi.edu.co.reto1;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import icesi.edu.co.reto1.comm.LocationWorker;
+import icesi.edu.co.reto1.model.Position;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,6 +15,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +30,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.SphericalUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,6 +46,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     private ArrayList<Marker> points;
     private Geocoder geocoder;
     private Button addButton;
+    private Position currentPosition;
+    private LocationWorker locationWorker;
 
     private HomeActivity home;
 
@@ -57,6 +63,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         mMap = googleMap;
         manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 2, this);
         setInitialPos();
+        drawMarkets();
         mMap.setOnMapClickListener(this);
         mMap.setOnMapLongClickListener(this);
         mMap.setOnMarkerClickListener(this);
@@ -64,7 +71,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
             darMarcadores(home.getPlaces().get(i));
             points.get(i);
         }
+        computedDistances();
+        locationWorker = new LocationWorker(this);
+        locationWorker.start();
 
+    }
+
+    @Override
+    public void onDestroy() {
+        locationWorker.finish();
+        super.onDestroy();
     }
 
     @Nullable
@@ -111,6 +127,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     @Override
     public void onLocationChanged(@NonNull Location location) {
         updateMyLocation(location);
+
     }
 
     public void updateMyLocation(Location location){
@@ -120,8 +137,27 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         } else {
             me.setPosition(myPos);
         }
-        points.add(me);
+        currentPosition= new Position(location.getLatitude(), location.getLongitude());
+
+        //computedDistances();
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPos,17));
+    }
+
+    private void computedDistances(){
+        for(int i = 0; i< points.size(); i++){
+            Marker marker = points.get(i);
+            LatLng markerLoc = marker.getPosition();
+            LatLng meLoc = me.getPosition();
+            double meters = SphericalUtil.computeDistanceBetween(markerLoc, meLoc);
+            Log.e(">>>>>", "metros a marcador"+ i+":"+meters+"m");
+
+            if(meters<10){
+                dialog = RatingDialog.newInstance();
+                dialog.setListener(home);
+                dialog.setPlace(new Place(UUID.randomUUID().toString(), marker.getTitle(), "ndcck", 0.0));
+                dialog.show(getActivity().getSupportFragmentManager(), "Rate Dialog");
+            }
+        }
     }
 
     @Override
@@ -141,6 +177,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     @Override
     public void onMapLongClick(LatLng latLng) {
        Marker p =  mMap.addMarker(new MarkerOptions().position(latLng).title("marcador"));
+        points.add(p);
         addButton.setVisibility(View.VISIBLE);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,7 +187,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                 bundle.putDouble("lat", p.getPosition().latitude);
                 bundle.putDouble("lng", p.getPosition().longitude);
                 getParentFragmentManager().setFragmentResult("key", bundle);
-                points.add(p);
                 home.changeToNew();
             }
         });
@@ -200,25 +236,23 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                         LatLng pos = new LatLng(place.getPositions().get(i).getLat(), place.getPositions().get(i).getLng());
                         Marker marker = mMap.addMarker((new MarkerOptions().position(pos).title(""+place.getName())));
                         points.add(marker);
-                      }
-                   }
+
+                        }
+                    }
            );
     }
 
 
-   /* public void drawMarkets() {
-
-       // if(getActivity()!=null){
+   public void drawMarkets() {
             getActivity().runOnUiThread(
                     () -> {
-
-                        for (int i = 0; i < points.size(); i++) {
-                            Marker marker = points.get(i);
-                            Marker marker1 = mMap.addMarker(new MarkerOptions().position(marker.getPosition()).title(marker.getSnippet()));
-
-                        }
+                        LatLng pos = new LatLng(currentPosition.getLat(), currentPosition.getLng());
+                         me = mMap.addMarker((new MarkerOptions().position(pos).title("yo").icon(BitmapDescriptorFactory.fromResource(R.drawable.person))));
                     }
             );
-       // }
-    }*/
+    }
+
+    public Position getCurrentPosition(){
+        return currentPosition;
+    }
 }
