@@ -75,11 +75,12 @@ public class RatingDialog extends DialogFragment implements View.OnClickListener
         rate5 = root.findViewById(R.id.rate1);
         sumitRate = root.findViewById(R.id.sumitRate);
         addressET = root.findViewById(R.id.addressET);
-        placeNameET = root.findViewById(R.id.placeName);
+        placeNameET = root.findViewById(R.id.placeNameET);
         imagePlace = root.findViewById(R.id.imagePlace);
 
         addressET.setText(place.getAddress());
         placeNameET.setText(place.getName());
+        imagePlace.setImageDrawable(place.getImg());
 
 
         rate1.setOnClickListener(this);

@@ -43,6 +43,7 @@ public class SearchFragment extends Fragment {
 
 
         placeToSearch = root.findViewById(R.id.placeToSearch);
+<<<<<<< HEAD
         placeToSearch.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -53,6 +54,8 @@ public class SearchFragment extends Fragment {
             }
         });
 
+=======
+>>>>>>> cc90ffd072453c115ad9a30a7aba21ac0e3760ab
         placesViewList =root.findViewById(R.id.placesViewList);
         placesViewList.setHasFixedSize(true);
 

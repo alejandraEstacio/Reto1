@@ -28,6 +28,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
+import icesi.edu.co.reto1.model.Position;
 
 import java.io.File;
 import java.util.UUID;
@@ -43,6 +44,8 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
     private Button addressBtn;
     private ModalDialog dialog;
     private File file;
+
+    private Position pos;
 
 
     private HomeActivity home;
@@ -80,7 +83,7 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
         btnRegister.setOnClickListener(this);
 
         //Camara
-       ActivityCompat.requestPermissions(getActivity(), new String[]{
+        ActivityCompat.requestPermissions(getActivity(), new String[]{
                         Manifest.permission.CAMERA,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -96,7 +99,7 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
         switch (v.getId()){
             case R.id.btnRegister:
                 Toast.makeText(getContext(), nameText.getText().toString(), Toast.LENGTH_LONG).show();
-                Place place = new Place(UUID.randomUUID().toString(),nameText.getText().toString(), addressText.getText().toString(), 0.0);
+                Place place = new Place(UUID.randomUUID().toString(),nameText.getText().toString(), addressText.getText().toString(), 0.0,pos, mainImage.getDrawable());
                 home.addPlace(place);
                 break;
 
@@ -108,7 +111,7 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
                 }
                 break;
             case R.id.addressBtn:
-               break;
+                break;
 
         }
     }
@@ -119,8 +122,14 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
         getParentFragmentManager().setFragmentResultListener("key", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult( String requestKey,  Bundle bundle) {
-              String dir = bundle.getString("direccion");
-              addressText.setText(dir);
+                String dir = bundle.getString("direccion");
+                double lat = bundle.getDouble("lat");
+                double lng = bundle.getDouble("lng");
+                pos = new Position(lat, lng);
+                addressText.setText(dir);
+                Log.v("AQUIIIIII", ""+lat);
+                Log.v("AQUIIIIII", ""+lng);
+
 
             }
         });
@@ -198,14 +207,6 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
 
     public void setHome(HomeActivity homeActivity) {
         this.home = homeActivity;
-    }
-
-    public TextView getAddressText() {
-        return addressText;
-    }
-
-    public void setAddressText(TextView addressText) {
-        this.addressText = addressText;
     }
 
 
