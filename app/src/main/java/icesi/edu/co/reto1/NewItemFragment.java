@@ -190,7 +190,7 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
         dialog.dismiss();
         Intent j = new Intent(Intent.ACTION_GET_CONTENT);
         j.setType("image/*");
-        getActivity().startActivityForResult(j, GALERY_CALLBACK);
+        startActivityForResult(j, GALERY_CALLBACK);
     }
 
     @Override

@@ -140,7 +140,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         }
         currentPosition= new Position(location.getLatitude(), location.getLongitude());
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(me.getPosition(),17));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPos,17));
     }
 
     private void computedDistances(){
@@ -207,6 +207,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         String myCity="";
         try {
 
+
             List<Address> addresses = geocoder.getFromLocation(myPos.latitude, myPos.longitude, 1);
             if (addresses.size() > 0) {
                 myCity = addresses.get(0).getAddressLine(0);
@@ -237,7 +238,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     }
 
     public void seePlace(String address) {
-
         int positionMarker = findPositionMarkerByAddress(address);
         animationToMarker(positionMarker);
     }
@@ -256,24 +256,22 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     public int findPositionMarkerByAddress(String address){
     int number = -1;
         for(int i =0; i<points.size(); i++){
-            //if(points.get(i).getSnippet()!=null) {
                 Log.v("algo", points.get(i).getPosition()+"");
                 String dir = getCityName(points.get(i).getPosition());
                 if (dir.contains(address)) {
                     number = i;
 
                 }
-            //}
         }
         return number;
     }
+
     public void animationToMarker(int posicion){
         if(posicion ==-1){
             Log.e("ERROR","Error de la direccion");
         }else {
             Marker marker = points.get(posicion);
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 20));
-
         }
     }
 

@@ -110,7 +110,6 @@ public class HomeActivity extends AppCompatActivity implements RatingDialog.onSu
 
     public void seePlace(String address) {
         showFragment(mapsFragment);
-
         mapsFragment.seePlace(address);
         mapsFragment.setHome(this);
     }

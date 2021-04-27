@@ -24,6 +24,7 @@ public class RatingDialog extends DialogFragment implements View.OnClickListener
     private Button sumitRate;
     private TextView addressET;
     private TextView placeNameET;
+
     private double rate;
 
     private onSumitListener listener;
@@ -43,7 +44,6 @@ public class RatingDialog extends DialogFragment implements View.OnClickListener
     }
 
     public void setPlace(Place place){
-
         this.place = place;
         rate = place.getRate();
     }
