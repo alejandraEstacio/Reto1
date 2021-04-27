@@ -86,7 +86,6 @@ public class SearchFragment extends Fragment {
 
 
     public void seePlace(String address) {
-
         home.seePlace(address);
     }
 }

@@ -44,7 +44,6 @@ public class RatingDialog extends DialogFragment implements View.OnClickListener
     }
 
     public void setPlace(Place place){
-
         this.place = place;
         rate = place.getRate();
     }

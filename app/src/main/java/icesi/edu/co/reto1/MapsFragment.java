@@ -236,7 +236,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     }
 
     public void seePlace(String address) {
-
         int positionMarker = findPositionMarkerByAddress(address);
         animationToMarker(positionMarker);
     }
@@ -257,11 +256,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         for(int i =0; i<points.size(); i++){
             if(points.get(i).getSnippet().contains(address)){
                 number = i ;
-
             }
         }
         return number;
     }
+
     public void animationToMarker(int posicion){
         if(posicion ==-1){
             Log.e("ERROR","Error de la direccion");
