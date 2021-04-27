@@ -15,10 +15,12 @@ import java.util.UUID;
 public class PlacesAdapter extends RecyclerView.Adapter<PlaceView> {
 
     private ArrayList<Place> places;
+    private ArrayList<Place> placesMemory;
 
     public PlacesAdapter(){
 
         places = new ArrayList<>();
+        placesMemory = new ArrayList<>();
 
     }
 
@@ -53,5 +55,18 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlaceView> {
     }
 
 
+    public void search(String search) {
 
+        placesMemory = places;
+        places = new ArrayList<>();
+
+        for(int i=0; i<placesMemory.size(); i++){
+            if(placesMemory.get(i).getName().contains(search)){
+                places.add(placesMemory.get(i));
+            }
+        }
+        //setPlaces(places);
+        this.notifyDataSetChanged();
+        places = placesMemory;
+    }
 }

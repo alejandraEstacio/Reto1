@@ -6,10 +6,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
+import java.util.ArrayList;
 
 public class SearchFragment extends Fragment {
 
@@ -37,7 +41,17 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_search, container, false);
 
+
         placeToSearch = root.findViewById(R.id.placeToSearch);
+        placeToSearch.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                search(placeToSearch.getText().toString());
+                Log.d( "algo","PERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRAAAAAAAAAAAAAAAAAA"+keyCode + " "+ event.toString());
+                return false;
+            }
+        });
 
         placesViewList =root.findViewById(R.id.placesViewList);
         placesViewList.setHasFixedSize(true);
@@ -52,6 +66,12 @@ public class SearchFragment extends Fragment {
         return root;
     }
 
+    private void search(String search) {
+
+        adapter.search(search);
+        adapter.notifyDataSetChanged();
+    }
+
     public void setHome(HomeActivity homeActivity) {
 
         this.home = homeActivity;
@@ -60,4 +80,6 @@ public class SearchFragment extends Fragment {
     public PlacesAdapter getAdapter(){
         return this.adapter;
     }
+
+
 }
