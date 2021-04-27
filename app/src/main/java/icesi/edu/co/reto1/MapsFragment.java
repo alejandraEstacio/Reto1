@@ -139,7 +139,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         }
         currentPosition= new Position(location.getLatitude(), location.getLongitude());
 
-        //computedDistances();
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPos,17));
     }
 
@@ -152,7 +151,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
             double meters = SphericalUtil.computeDistanceBetween(markerLoc, meLoc);
             Log.e(">>>>>", "metros a marcador"+ i+":"+meters+"m");
 
-            if(meters<10){
+            if(meters<20){
                 dialog = RatingDialog.newInstance();
                 dialog.setListener(home);
                 dialog.setPlace(new Place(UUID.randomUUID().toString(), marker.getTitle(), dir, 0.0));
@@ -235,14 +234,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                     }
            );
     }
+
     public void seePlace(String address) {
 
         int positionMarker = findPositionMarkerByAddress(address);
         animationToMarker(positionMarker);
     }
 
-   public void drawMarkets() {
 
+
+   public void drawMarkets() {
             getActivity().runOnUiThread(
                     () -> {
                         LatLng pos = new LatLng(currentPosition.getLat(), currentPosition.getLng());

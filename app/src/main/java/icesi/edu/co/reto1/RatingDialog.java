@@ -24,7 +24,6 @@ public class RatingDialog extends DialogFragment implements View.OnClickListener
     private Button sumitRate;
     private TextView addressET;
     private TextView placeNameET;
-    private ImageView imagePlace;
     private double rate;
 
     private onSumitListener listener;
@@ -76,11 +75,11 @@ public class RatingDialog extends DialogFragment implements View.OnClickListener
         sumitRate = root.findViewById(R.id.sumitRate);
         addressET = root.findViewById(R.id.addressET);
         placeNameET = root.findViewById(R.id.placeNameET);
-        imagePlace = root.findViewById(R.id.imagePlace);
+
+
 
         addressET.setText(place.getAddress());
         placeNameET.setText(place.getName());
-        imagePlace.setImageDrawable(place.getImg());
 
 
         rate1.setOnClickListener(this);
