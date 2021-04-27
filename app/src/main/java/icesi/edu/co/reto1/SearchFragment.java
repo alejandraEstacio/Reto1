@@ -36,7 +36,6 @@ public class SearchFragment extends Fragment {
         SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
-
         return fragment;
     }
 
@@ -44,7 +43,6 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_search, container, false);
-
 
         placeToSearch = root.findViewById(R.id.placeToSearch);
         placeToSearch.setOnKeyListener(new View.OnKeyListener() {
@@ -59,13 +57,11 @@ public class SearchFragment extends Fragment {
 
         placesViewList =root.findViewById(R.id.placesViewList);
         placesViewList.setHasFixedSize(true);
-        //placesViewList.find
 
         adapter = new PlacesAdapter();
         adapter.setPlaces(home.getPlaces());
         adapter.setFragment(this);
         placesViewList.setAdapter(adapter);
-
 
         layoutManager = new LinearLayoutManager(this.getContext());
         placesViewList.setLayoutManager(layoutManager);

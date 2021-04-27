@@ -1,11 +1,6 @@
 package icesi.edu.co.reto1;
-
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.widget.ImageView;
-
 import java.util.ArrayList;
-
 import icesi.edu.co.reto1.model.Position;
 
 public class Place {
@@ -37,7 +32,6 @@ public class Place {
         this.img = img;
         positions = new ArrayList<>();
         positions.add(new Position(pos.getLat(), pos.getLng()));
-       // positions.add(pos);
     }
 
     public String getId() {
@@ -65,8 +59,12 @@ public class Place {
     }
 
     public void recalculateRate(double rate){
-        double aux = (this.rate+rate)/2;
-        this.rate = aux;
+        if(rate==0) {
+           this.rate =rate;
+        }else {
+            double aux = (this.rate + rate) / 2;
+            this.rate = aux;
+        }
     }
 
     public String getAddress() {

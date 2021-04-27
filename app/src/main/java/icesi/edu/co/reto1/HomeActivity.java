@@ -113,4 +113,6 @@ public class HomeActivity extends AppCompatActivity implements RatingDialog.onSu
         mapsFragment.seePlace(address);
         mapsFragment.setHome(this);
     }
+
+
 }
