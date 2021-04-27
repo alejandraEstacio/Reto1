@@ -235,23 +235,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                     }
            );
     }
-
-<<<<<<< HEAD
     public void seePlace(String address) {
 
         int positionMarker = findPositionMarkerByAddress(address);
-        animatioTomarker();
+        animationToMarker(positionMarker);
     }
 
-
-
-
-   /* public void drawMarkets() {
-
-       // if(getActivity()!=null){
-=======
    public void drawMarkets() {
->>>>>>> 58af2bf198db4cf18098f67434290bafea7040a4
+
             getActivity().runOnUiThread(
                     () -> {
                         LatLng pos = new LatLng(currentPosition.getLat(), currentPosition.getLng());
