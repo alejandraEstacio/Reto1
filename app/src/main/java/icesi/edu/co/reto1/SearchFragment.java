@@ -38,7 +38,6 @@ public class SearchFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_search, container, false);
 
         placeToSearch = root.findViewById(R.id.placeToSearch);
-
         placesViewList =root.findViewById(R.id.placesViewList);
         placesViewList.setHasFixedSize(true);
 

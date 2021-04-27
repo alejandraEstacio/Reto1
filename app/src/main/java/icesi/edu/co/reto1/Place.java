@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
 import icesi.edu.co.reto1.model.Position;
 
 public class Place {
@@ -14,13 +16,16 @@ public class Place {
     private double rate;
     private Drawable img;
     private Position pos;
+    private ArrayList<Position> positions;
 
     public Place(){ }
 
-    public Place(String id, String name, double rate) {
+    public Place(String id, String name, String address, double rate) {
         this.id = id;
         this.name = name;
         this.rate = rate;
+        this.address = address;
+
     }
 
     public Place(String id, String name,String address, double rate, Position pos, Drawable img){
@@ -30,6 +35,9 @@ public class Place {
         this.rate = rate;
         this.pos = pos;
         this.img = img;
+        positions = new ArrayList<>();
+        positions.add(new Position(pos.getLat(), pos.getLng()));
+       // positions.add(pos);
     }
 
     public String getId() {
@@ -83,5 +91,13 @@ public class Place {
 
     public void setImg(Drawable img) {
         this.img = img;
+    }
+
+    public ArrayList<Position> getPositions() {
+        return positions;
+    }
+
+    public void setPositions(ArrayList<Position> positions) {
+        this.positions = positions;
     }
 }

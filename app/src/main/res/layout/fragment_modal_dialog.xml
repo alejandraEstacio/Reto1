@@ -25,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginEnd="104dp"
+        android:background="@drawable/buttonback"
         android:backgroundTint="@color/red_Button"
         android:text="Galeria"
         android:textColor="@color/white"

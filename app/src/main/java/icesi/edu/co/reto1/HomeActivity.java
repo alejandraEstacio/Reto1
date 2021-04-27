@@ -1,27 +1,20 @@
 package icesi.edu.co.reto1;
 
-import
-        androidx.annotation.NonNull;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.DialogFragment;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import icesi.edu.co.reto1.comm.LocationWorker;
 
 import android.Manifest;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity implements RatingDialog.onSumitListener {
@@ -120,5 +113,8 @@ public class HomeActivity extends AppCompatActivity implements RatingDialog.onSu
         places.add(place);
         searchFragment.getAdapter().setPlaces(places);
     }
+
+
+
 
 }

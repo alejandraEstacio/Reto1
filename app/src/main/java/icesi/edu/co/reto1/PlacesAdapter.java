@@ -41,7 +41,6 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlaceView> {
     @Override
     public void onBindViewHolder(@NonNull PlaceView holder, int position) {
         holder.getImage().setImageDrawable(places.get(position).getImg());
-        //holder.setImage();
         holder.getName().setText(places.get(position).getName());
         holder.getRate().setText(""+places.get(position).getRate());
 

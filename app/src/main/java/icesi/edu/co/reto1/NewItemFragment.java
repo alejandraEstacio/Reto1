@@ -127,6 +127,9 @@ public class NewItemFragment extends Fragment implements View.OnClickListener, M
                 double lng = bundle.getDouble("lng");
                 pos = new Position(lat, lng);
                 addressText.setText(dir);
+                Log.v("AQUIIIIII", ""+lat);
+                Log.v("AQUIIIIII", ""+lng);
+
 
             }
         });
